@@ -20,35 +20,102 @@
 package me.sashie.skdragon.emotes;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 
+import me.sashie.skdragon.skDragonCore;
+import me.sashie.skdragon.exceptions.NoSuchEmoteException;
+
 public class SkullEffectsLib {
-	final public static HashMap<String, Integer> emotelist = new HashMap<String, Integer>();
-	final public static HashMap<String, ItemStack> originalItem = new HashMap<String, ItemStack>();
-	
-	public static void stopEffect(Player player) {
-		if (emotelist.containsKey(player.getUniqueId().toString())) {
-			removeSkull(player);
-			Bukkit.getScheduler().cancelTask(emotelist.get(player.getUniqueId().toString()));
-			emotelist.remove(player.getUniqueId().toString());
-			Bukkit.getServer().getPluginManager().callEvent(new EmoteEndedEvent(player));
+
+	final private static HashMap<String, Integer> emotelist = new HashMap<String, Integer>();
+	final private static HashMap<String, ItemStack> originalItem = new HashMap<String, ItemStack>();
+	final public static String PREFIX = "§b§lEMOTE-";
+
+	public static List<String> getActiveEmoteKeys() {
+		return new ArrayList<>(emotelist.keySet());
+	}
+
+	public static boolean entityHasEmote(LivingEntity entity) {
+		return emotelist.containsKey(entity.getUniqueId().toString());
+	}
+
+	public static CustomEmote emoteFromName(String name) throws NoSuchEmoteException {
+		EmoteType emoteType = EmoteType.fromName(name);
+		CustomEmote emote;
+		if (emoteType != null)
+			emote = emoteType.initEmote();
+		else if (SkullConfig.emoteExists(name))
+			emote = SkullConfig.getEmote(name);
+		else
+			throw new NoSuchEmoteException(name);
+		return emote;
+	}
+
+	public static void playEmote(CustomEmote emote, LivingEntity entity) {
+		playEmote(emote, entity, 0, 0);
+	}
+
+	public static void playEmote(CustomEmote emote, LivingEntity entity, int repeats, long tick) {
+		if (!emotelist.containsKey(entity.getUniqueId().toString())) {
+			originalItem.put(entity.getUniqueId().toString(), getHelmet(entity));
+
+			String skullName = PREFIX + entity.getUniqueId().toString();
+			List<ItemStack> skulls = new ArrayList<ItemStack>();
+			for (int i = 0; i < emote.size(); i++) {
+				skulls.add(createSkull(skullName, emote.getFrameData(i)));
+			}
+
+			int custom = Bukkit.getServer().getScheduler().runTaskTimer(skDragonCore.skdragoncore, new Runnable() {
+			    int time = 0;
+			    int skullStep = 0;
+			    int timeCounter = 0;
+			    int i = repeats;
+			    boolean repeating = repeats >= 1;
+			    
+				@Override
+				public void run() {
+					if (emote.getEmoteType() != null)
+						emote.getEmoteType().playParticle(time, skullStep, entity.getEyeLocation());
+					if (time == timeCounter) {
+						timeCounter = timeCounter + emote.getFrameLength(skullStep);
+						setHelmet(entity, skulls.get(skullStep));
+						skullStep += 1;
+					}
+					time++;
+					if (repeating) {
+						if (time >= emote.getTotalLength()) {
+							time = 0;
+							skullStep = 0;
+							timeCounter = 0;
+							i--;
+						}
+			            if (i < 1) {
+			            	stopEmote(entity);
+			            }
+			        } else if (time >= emote.getTotalLength()) {
+			        	stopEmote(entity);
+			        }
+				}
+			}, 0, tick).getTaskId();
+			emotelist.put(entity.getUniqueId().toString(), custom);
+			Bukkit.getServer().getPluginManager().callEvent(new EmoteStartedEvent(emote.getName(), entity));
 		}
 	}
 
-	public static void stopEffect(LivingEntity ent) {
+	public static void stopEmote(LivingEntity ent) {
 		if (emotelist.containsKey(ent.getUniqueId().toString())) {
 			removeSkull(ent);
 			Bukkit.getScheduler().cancelTask(emotelist.get(ent.getUniqueId().toString()));
@@ -57,62 +124,29 @@ public class SkullEffectsLib {
 		}
 	}
 
-	public static void giveBackOriginal(Player player) {
-		if (originalItem.containsKey(player.getUniqueId().toString())) {
-			player.getInventory().setHelmet(originalItem.get(player.getUniqueId().toString()));
-			originalItem.remove(player.getUniqueId().toString());
-		}
-	}
-
-	public static void removeSkull(Player player) {
-		for (ItemStack item : player.getInventory().getArmorContents()) {
-			if (item != null) {
-				if (item.hasItemMeta() 
-						&& item.getItemMeta().hasDisplayName() 
-						&& item.getItemMeta().getDisplayName().equals("§b§lEMOTE-" + player.getUniqueId().toString())) {
-	            	player.getInventory().remove(item);
-	            	player.getInventory().removeItem(item);
-	            	giveBackOriginal(player);
-				}
-            }
-		}
-
-		for (ItemStack item : player.getInventory().getContents()) {
-			if (item != null) {
-				if (item.hasItemMeta() 
-						&& item.getItemMeta().hasDisplayName() 
-						&& item.getItemMeta().getDisplayName().equals("§b§lEMOTE-" + player.getUniqueId().toString())) {
-	            	player.getInventory().remove(item);
-	            	player.getInventory().removeItem(item);
-	            	giveBackOriginal(player);
-				}
-            }
-        }
-	}
-
-	public static void setHelmet(LivingEntity ent, ItemStack helmet) {
+	private static void setHelmet(LivingEntity ent, ItemStack helmet) {
 	    EntityEquipment ee = ent.getEquipment();
 	    ee.setHelmet(helmet);
 	}
 
-	public static ItemStack getHelmet(LivingEntity ent) {
+	private static ItemStack getHelmet(LivingEntity ent) {
 	    EntityEquipment ee = ent.getEquipment();
 	    return ee.getHelmet();
 	}
 
-	public static void giveBackOriginal(LivingEntity ent) {
+	private static void giveBackOriginal(LivingEntity ent) {
 		if (originalItem.containsKey(ent.getUniqueId().toString())) {
 			ent.getEquipment().setHelmet(originalItem.get(ent.getUniqueId().toString()));
 			originalItem.remove(ent.getUniqueId().toString());
 		}
 	}
 
-	public static void removeSkull(LivingEntity ent) {
+	private static void removeSkull(LivingEntity ent) {
 		for (ItemStack item : ent.getEquipment().getArmorContents()) {
 			if (item != null) {
 				if (item.hasItemMeta() 
 						&& item.getItemMeta().hasDisplayName() 
-						&& item.getItemMeta().getDisplayName().equals("§b§lEMOTE-" + ent.getUniqueId())) {
+						&& item.getItemMeta().getDisplayName().equals(PREFIX + ent.getUniqueId().toString())) {
 	            	ent.getEquipment().setHelmet(new ItemStack(Material.AIR, 1));
 	            	giveBackOriginal(ent);
 				}
@@ -148,12 +182,6 @@ public class SkullEffectsLib {
         head.setItemMeta(headMeta);
         return head;
     }
-
-	public static void setSkullName(ItemStack skull, String name) {
-		ItemMeta itemMeta = skull.getItemMeta();
-    	itemMeta.setDisplayName(name);
-    	skull.setItemMeta(itemMeta);
-	}
 
 	public static String SMILE = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTJlOTgxNjVkZWVmNGVkNjIxOTUzOTIxYzFlZjgxN2RjNjM4YWY3MWMxOTM0YTQyODdiNjlkN2EzMWY2YjgifX19";
 	public static String SMILE1 = "eyJ0aW1lc3RhbXAiOjE0NjM1OTI3OTA3MTYsInByb2ZpbGVJZCI6ImY1ODgyOTVlY2UyZDRhODZiMTA5YzBkMTI4MDM0YjFkIiwicHJvZmlsZU5hbWUiOiJfU2FzaGllXyIsInRleHR1cmVzIjp7IlNLSU4iOnsidXJsIjoiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9iN2Q1MzNlNjVmMmNhZTk3YWZlMzM0YzgxZWNjOTdlMmZhNWIzZTVkM2VjZjhiOTFiYzM5YTVhZGIyZTc5YSJ9fX0=";

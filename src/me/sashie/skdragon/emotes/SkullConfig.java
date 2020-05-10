@@ -33,11 +33,23 @@ import me.sashie.skdragon.skDragonCore;
 public class SkullConfig {
 	private File skullConfig;
 	private FileConfiguration skullData;
-	final public static HashMap<String, CustomEmote> customEmoteList = new HashMap<String, CustomEmote>();
-	final public static HashMap<String, String> customSkullList = new HashMap<String, String>();
+	final private static HashMap<String, CustomEmote> customEmoteList = new HashMap<String, CustomEmote>();
+	final private static HashMap<String, String> customSkullList = new HashMap<String, String>();
 
 	public SkullConfig() {
 		initFile();
+	}
+
+	public static boolean emoteExists(String name) {
+		return customEmoteList.containsKey(name);
+	}
+	
+	public static CustomEmote getEmote(String name) {
+		return customEmoteList.get(name);
+	}
+
+	public static String getSkull(String name) {
+		return customSkullList.get(name);
 	}
 
 	private void initFile() {
@@ -85,7 +97,6 @@ public class SkullConfig {
 			 * for (int i = 0; i < emote.size(); i++) {
 			 * System.out.println(emote.getFrameLength(i));
 			 * System.out.println(emote.getFrameData(i));
-			 * 
 			 * }
 			 */
 		}

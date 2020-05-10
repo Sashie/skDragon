@@ -20,14 +20,12 @@
 package me.sashie.skdragon.emotes;
 
 import org.bukkit.entity.Entity;
-import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class EmoteEndedEvent extends Event implements Cancellable {
+public class EmoteEndedEvent extends Event {
 
 	private static final HandlerList handlers = new HandlerList();
-	private boolean cancelled;
 
 	private Entity entity;
 
@@ -38,16 +36,6 @@ public class EmoteEndedEvent extends Event implements Cancellable {
 	@Override
 	public HandlerList getHandlers() {
 		return handlers;
-	}
-
-	@Override
-	public boolean isCancelled() {
-		return this.cancelled;
-	}
-
-	@Override
-	public void setCancelled(boolean cancelled) {
-		this.cancelled = cancelled;
 	}
 
 	public Entity getEntity() {

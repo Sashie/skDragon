@@ -25,6 +25,7 @@ import java.util.List;
 public class CustomEmote {
 
 	private String name;
+	private EmoteType emoteType;
 
 	private List<Integer> timings = new ArrayList<Integer>();
 	private List<String> skulls = new ArrayList<String>();
@@ -33,9 +34,17 @@ public class CustomEmote {
 	public CustomEmote(String name) {
 		this.name = name;
 	}
+
+	public CustomEmote(EmoteType emoteType) {
+		this.emoteType = emoteType;
+	}
 	
 	public String getName() {
-		return name;
+		return name != null ? name : emoteType.getName();
+	}
+
+	public EmoteType getEmoteType() {
+		return emoteType;
 	}
 
 	public String getFrameData(int i) {
@@ -59,6 +68,10 @@ public class CustomEmote {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public void setEmoteType(EmoteType emoteType) {
+		this.emoteType = emoteType;
 	}
 
 	public void addFrame(int timing, String skull) {

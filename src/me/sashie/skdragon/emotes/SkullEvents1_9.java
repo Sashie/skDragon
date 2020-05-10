@@ -19,9 +19,6 @@
 
 package me.sashie.skdragon.emotes;
 
-
-//import static ud.skript.sashie.skDragon.emojis.SkullEffectsLib.removeSkull;
-
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -48,17 +45,17 @@ public class SkullEvents1_9 implements Listener {
         		&& event.getCursor() != null
         		&& event.getCursor().hasItemMeta()
         		&& event.getCursor().getItemMeta().hasDisplayName()
-        		&& event.getCursor().getItemMeta().getDisplayName().equals("§b§lEMOTE-" + player.getUniqueId().toString())) {
+        		&& event.getCursor().getItemMeta().getDisplayName().equals(SkullEffectsLib.PREFIX + player.getUniqueId().toString())) {
             event.setCancelled(true);
         }
         
-        if (SkullEffectsLib.emotelist.containsKey(player.getUniqueId().toString())) {
+        if (SkullEffectsLib.entityHasEmote(player)) {
         	
         	if(event.getInventory().getType() == InventoryType.PLAYER 
         			&& event.getCurrentItem() != null
                     && event.getCurrentItem().hasItemMeta()
                     && event.getCurrentItem().getItemMeta().hasDisplayName()
-                    && event.getCurrentItem().getItemMeta().getDisplayName().equals("§b§lEMOTE-" + player.getUniqueId().toString())) {
+                    && event.getCurrentItem().getItemMeta().getDisplayName().equals(SkullEffectsLib.PREFIX + player.getUniqueId().toString())) {
                 player.getInventory().remove(event.getCurrentItem());
                 player.getInventory().removeItem(event.getCurrentItem());
                 player.closeInventory();
@@ -74,7 +71,7 @@ public class SkullEvents1_9 implements Listener {
             if (event.getCurrentItem() != null
                     && event.getCurrentItem().hasItemMeta()
                     && event.getCurrentItem().getItemMeta().hasDisplayName()
-                    && event.getCurrentItem().getItemMeta().getDisplayName().equals("§b§lEMOTE-" + player.getUniqueId().toString())) {
+                    && event.getCurrentItem().getItemMeta().getDisplayName().equals(SkullEffectsLib.PREFIX + player.getUniqueId().toString())) {
                 player.getInventory().remove(event.getCurrentItem());
                 player.getInventory().removeItem(event.getCurrentItem());
             	event.setCancelled(true);
@@ -88,7 +85,7 @@ public class SkullEvents1_9 implements Listener {
             		&& event.getCurrentItem() != null
             		&& event.getCurrentItem().hasItemMeta()
                     && event.getCurrentItem().getItemMeta().hasDisplayName()
-                    && event.getCurrentItem().getItemMeta().getDisplayName().equals("§b§lEMOTE-" + player.getUniqueId().toString())) {
+                    && event.getCurrentItem().getItemMeta().getDisplayName().equals(SkullEffectsLib.PREFIX + player.getUniqueId().toString())) {
                 player.getInventory().remove(event.getCurrentItem());
                 player.getInventory().removeItem(event.getCurrentItem());
             	event.setCancelled(true);
@@ -104,7 +101,7 @@ public class SkullEvents1_9 implements Listener {
             if (item != null
                     && item.hasItemMeta()
                     && item.getItemMeta().hasDisplayName()
-                    && item.getItemMeta().getDisplayName().equals("§b§lEMOTE-" + ((Player) event.getWhoClicked()).getUniqueId().toString())) {
+                    && item.getItemMeta().getDisplayName().equals(SkullEffectsLib.PREFIX + ((Player) event.getWhoClicked()).getUniqueId().toString())) {
                 event.setCancelled(true);
                 ((Player) event.getWhoClicked()).updateInventory();
                 return;
@@ -116,7 +113,7 @@ public class SkullEvents1_9 implements Listener {
     public void onDrop(PlayerDropItemEvent event) {
         if (event.getItemDrop().getItemStack().hasItemMeta()
                 && event.getItemDrop().getItemStack().getItemMeta().hasDisplayName()
-                && event.getItemDrop().getItemStack().getItemMeta().getDisplayName().equals("§b§lEMOTE-" + event.getPlayer().getUniqueId().toString())) {
+                && event.getItemDrop().getItemStack().getItemMeta().getDisplayName().equals(SkullEffectsLib.PREFIX + event.getPlayer().getUniqueId().toString())) {
             event.getItemDrop().remove();
             event.getPlayer().updateInventory();
         }
@@ -127,7 +124,7 @@ public class SkullEvents1_9 implements Listener {
         if (event.getItem().getItemStack() != null
                 && event.getItem().getItemStack().hasItemMeta()
                 && event.getItem().getItemStack().getItemMeta().hasDisplayName()
-                && event.getItem().getItemStack().getItemMeta().getDisplayName().equals("§b§lEMOTE-" + event.getPlayer().getUniqueId().toString())) {
+                && event.getItem().getItemStack().getItemMeta().getDisplayName().equals(SkullEffectsLib.PREFIX + event.getPlayer().getUniqueId().toString())) {
             event.setCancelled(true);
             event.getItem().remove();
         }
@@ -140,8 +137,7 @@ public class SkullEvents1_9 implements Listener {
 			if (item != null) {
 				if (item.hasItemMeta() 
 						&& item.getItemMeta().hasDisplayName() 
-						&& item.getItemMeta().getDisplayName().equals("§b§lEMOTE-" + player.getUniqueId().toString())) {
-					//if ()
+						&& item.getItemMeta().getDisplayName().equals(SkullEffectsLib.PREFIX + player.getUniqueId().toString())) {
 	            	player.getInventory().setHelmet(new ItemStack(Material.AIR, 1));
 	            	player.getInventory().removeItem(item);
 				}
@@ -151,16 +147,16 @@ public class SkullEvents1_9 implements Listener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
-    	SkullEffectsLib.stopEffect(event.getPlayer());
+    	SkullEffectsLib.stopEmote(event.getPlayer());
     }
 
     @EventHandler
     public void onWorldChange(PlayerChangedWorldEvent event) {
-    	SkullEffectsLib.stopEffect(event.getPlayer());
+    	SkullEffectsLib.stopEmote(event.getPlayer());
     }
 
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
-    	SkullEffectsLib.stopEffect(event.getEntity());
+    	SkullEffectsLib.stopEmote(event.getEntity());
     }
 }

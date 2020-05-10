@@ -42,7 +42,7 @@ import me.sashie.skdragon.utils.VectorUtils;
 public enum EmoteType {
 	BLUSH(			1, "blush") {
 		public CustomEmote initEmote() {
-			CustomEmote emote = new CustomEmote(getName());
+			CustomEmote emote = new CustomEmote(this);
 			emote.addFrame(18, BLUSH1);
 			emote.addFrame(17, BLUSH2);
 			emote.addFrame(5, BLUSH3);
@@ -65,7 +65,7 @@ public enum EmoteType {
 	},
 	CHEEKY(			2, "cheeky") {
 		public CustomEmote initEmote() {
-			CustomEmote emote = new CustomEmote(getName());
+			CustomEmote emote = new CustomEmote(this);
 			emote.addFrame(5, CHEEKY1);
 			emote.addFrame(5, CHEEKY2);
 			emote.addFrame(5, CHEEKY3);
@@ -92,7 +92,7 @@ public enum EmoteType {
 	},
 	COOL(			3, "cool") {
 		public CustomEmote initEmote() {
-			CustomEmote emote = new CustomEmote(getName());
+			CustomEmote emote = new CustomEmote(this);
 			emote.addFrame(10, COOL1);
 			emote.addFrame(10, COOL2);
 			emote.addFrame(80, COOL3);
@@ -107,7 +107,7 @@ public enum EmoteType {
 	},
 	CRY(			4, "cry") {
 		public CustomEmote initEmote() {
-			CustomEmote emote = new CustomEmote(getName());
+			CustomEmote emote = new CustomEmote(this);
 			emote.addFrame(10, CRY1);
 			emote.addFrame(10, CRY2);
 			emote.addFrame(10, CRY3);
@@ -141,7 +141,7 @@ public enum EmoteType {
 	},
 	DIZZY(			5, "dizzy") {
 		public CustomEmote initEmote() {
-			CustomEmote emote = new CustomEmote(getName());
+			CustomEmote emote = new CustomEmote(this);
 			emote.addFrame(5, DIZZY1);
 			emote.addFrame(5, DIZZY2);
 			emote.addFrame(5, DIZZY3);
@@ -164,7 +164,7 @@ public enum EmoteType {
 	},
 	FROWN(			6, "frown") {
 		public CustomEmote initEmote() {
-			CustomEmote emote = new CustomEmote(getName());
+			CustomEmote emote = new CustomEmote(this);
 			emote.addFrame(10, FROWN1);
 			emote.addFrame(10, FROWN2);
 			emote.addFrame(20, FROWN3);
@@ -211,7 +211,7 @@ public enum EmoteType {
 	},
 	GOOFY(			7, "goofy") {
 		public CustomEmote initEmote() {
-			CustomEmote emote = new CustomEmote(getName());
+			CustomEmote emote = new CustomEmote(this);
 			for (int i = 1; i <= 3; i++) {
 				emote.addFrame(5, GOOFY1);
 				emote.addFrame(5, GOOFY2);
@@ -233,7 +233,7 @@ public enum EmoteType {
 	},
 	GRIN(			8, "grin") {
 		public CustomEmote initEmote() {
-			CustomEmote emote = new CustomEmote(getName());
+			CustomEmote emote = new CustomEmote(this);
 			emote.addFrame(10, GRIN1);
 			emote.addFrame(10, GRIN2);
 			emote.addFrame(10, GRIN3);
@@ -249,7 +249,7 @@ public enum EmoteType {
 	},
 	LOVE_STRUCK(	9, "love struck") {
 		public CustomEmote initEmote() {
-			CustomEmote emote = new CustomEmote(getName());
+			CustomEmote emote = new CustomEmote(this);
 			for (int i = 1; i <= 5; i++) {
 				emote.addFrame(10, LOVESTRUCK1);
 				emote.addFrame(2, LOVESTRUCK2);
@@ -270,7 +270,7 @@ public enum EmoteType {
 	},
 	LOVEY(			10, "lovey") {
 		public CustomEmote initEmote() {
-			CustomEmote emote = new CustomEmote(getName());
+			CustomEmote emote = new CustomEmote(this);
 			emote.addFrame(10, LOVE1);
 			emote.addFrame(10, LOVE2);
 			emote.addFrame(5, LOVE3);
@@ -294,7 +294,7 @@ public enum EmoteType {
 	},
 	RAGE(			11, "rage") {
 		public CustomEmote initEmote() {
-			CustomEmote emote = new CustomEmote(getName());
+			CustomEmote emote = new CustomEmote(this);
 			emote.addFrame(5, RAGE1);
 			emote.addFrame(5, RAGE2);
 			emote.addFrame(5, RAGE3);
@@ -321,7 +321,7 @@ public enum EmoteType {
 	},
 	RELAX(			12, "relax") {
 		public CustomEmote initEmote() {
-			CustomEmote emote = new CustomEmote(getName());
+			CustomEmote emote = new CustomEmote(this);
 			emote.addFrame(8, RELAX1);
 			emote.addFrame(7, RELAX2);
 			emote.addFrame(25, RELAX3);
@@ -347,7 +347,7 @@ public enum EmoteType {
 	},
 	RIP(			13, "rip") {
 		public CustomEmote initEmote() {
-			CustomEmote emote = new CustomEmote(getName());
+			CustomEmote emote = new CustomEmote(this);
 			emote.addFrame(5, RIP1);
 			emote.addFrame(5, RIP2);
 			emote.addFrame(5, RIP3);
@@ -366,7 +366,7 @@ public enum EmoteType {
 	},
 	SLEEPY(			14, "sleepy") {
 		public CustomEmote initEmote() {
-			CustomEmote emote = new CustomEmote(getName());
+			CustomEmote emote = new CustomEmote(this);
 			emote.addFrame(8, SLEEPY1);
 			emote.addFrame(8, SLEEPY2);
 			emote.addFrame(4, SLEEPY3);
@@ -392,7 +392,7 @@ public enum EmoteType {
 	},
 	SMILE(			15, "smile") {
 		public CustomEmote initEmote() {
-			CustomEmote emote = new CustomEmote(getName());
+			CustomEmote emote = new CustomEmote(this);
 			emote.addFrame(20, SkullEffectsLib.SMILE1);
 			emote.addFrame(20, SkullEffectsLib.SMILE2);
 			emote.addFrame(20, SkullEffectsLib.SMILE3);
@@ -408,7 +408,7 @@ public enum EmoteType {
 	},
 	SPICY(			16, "spicy") {
 		public CustomEmote initEmote() {
-			CustomEmote emote = new CustomEmote(getName());
+			CustomEmote emote = new CustomEmote(this);
 			emote.addFrame(5, SPICY1);
 			emote.addFrame(5, SPICY2);
 			emote.addFrame(5, SPICY3);
@@ -431,7 +431,7 @@ public enum EmoteType {
 	},
 	SURPRISED(		17, "surprised") {
 		public CustomEmote initEmote() {
-			CustomEmote emote = new CustomEmote(getName());
+			CustomEmote emote = new CustomEmote(this);
 			emote.addFrame(10, SURPRISED1);
 			emote.addFrame(10, SURPRISED2);
 			emote.addFrame(10, SURPRISED3);
@@ -447,7 +447,7 @@ public enum EmoteType {
 	},
 	TAN(			18, "tan") {
 		public CustomEmote initEmote() {
-			CustomEmote emote = new CustomEmote(getName());
+			CustomEmote emote = new CustomEmote(this);
 			emote.addFrame(5, TAN1);
 			emote.addFrame(5, TAN2);
 			emote.addFrame(10, TAN3);
@@ -474,7 +474,7 @@ public enum EmoteType {
 	},
 	TOO_COOL(		19, "too cool") {
 		public CustomEmote initEmote() {
-			CustomEmote emote = new CustomEmote(getName());
+			CustomEmote emote = new CustomEmote(this);
 			emote.addFrame(5, TOOCOOL1);
 			emote.addFrame(5, TOOCOOL2);
 			emote.addFrame(5, TOOCOOL3);
@@ -496,7 +496,7 @@ public enum EmoteType {
 	},
 	WINK(			20, "wink") {
 		public CustomEmote initEmote() {
-			CustomEmote emote = new CustomEmote(getName());
+			CustomEmote emote = new CustomEmote(this);
 			emote.addFrame(10, WINK1);
 			emote.addFrame(10, WINK2);
 			emote.addFrame(20, WINK3);
@@ -517,7 +517,7 @@ public enum EmoteType {
 	},
 	ORC_BLINK(		21, "orc blink") {
 		public CustomEmote initEmote() {
-			CustomEmote emote = new CustomEmote(getName());
+			CustomEmote emote = new CustomEmote(this);
 			emote.addFrame(10, ORC_BLINK1);
 			emote.addFrame(10, ORC_BLINK2);
 			emote.addFrame(20, ORC_BLINK1);
@@ -538,7 +538,7 @@ public enum EmoteType {
 	},
 	SANTA_BLINK(	22, "santa blink") {
 		public CustomEmote initEmote() {
-			CustomEmote emote = new CustomEmote(getName());
+			CustomEmote emote = new CustomEmote(this);
 			emote.addFrame(10, SANTA_BLINK1);
 			emote.addFrame(10, SANTA_BLINK2);
 			emote.addFrame(20, SANTA_BLINK1);
@@ -559,7 +559,7 @@ public enum EmoteType {
 	},
 	SANTA_LOOK(		23, "santa look") {
 		public CustomEmote initEmote() {
-			CustomEmote emote = new CustomEmote(getName());
+			CustomEmote emote = new CustomEmote(this);
 			for (int i = 1; i <= 5; i++) {
 				emote.addFrame(10, SANTA_LOOK1);
 				emote.addFrame(10, SANTA_LOOK2);
@@ -577,7 +577,7 @@ public enum EmoteType {
 	},
 	SANTA_WINK(		24, "santa wink") {
 		public CustomEmote initEmote() {
-			CustomEmote emote = new CustomEmote(getName());
+			CustomEmote emote = new CustomEmote(this);
 			for (int i = 1; i <= 5; i++) {
 				emote.addFrame(20, SANTA_WINK1);
 				emote.addFrame(5, SANTA_WINK2);
@@ -594,7 +594,7 @@ public enum EmoteType {
 	},
 	XMAS_TREE(		25, "xmas tree") {
 		public CustomEmote initEmote() {
-			CustomEmote emote = new CustomEmote(getName());
+			CustomEmote emote = new CustomEmote(this);
 			for (int i = 1; i <= 5; i++) {
 				emote.addFrame(10, XMAS_TREE1);
 				emote.addFrame(10, XMAS_TREE2);
@@ -612,7 +612,7 @@ public enum EmoteType {
 	},
 	PUMPKIN_EXPLODE(		25, "pumpkin explode") {
 		public CustomEmote initEmote() {
-			CustomEmote emote = new CustomEmote(getName());
+			CustomEmote emote = new CustomEmote(this);
 			emote.addFrame(15, PUMPKIN_EXPLODE1);
 			emote.addFrame(13, PUMPKIN_EXPLODE2);
 			emote.addFrame(13, PUMPKIN_EXPLODE3);
@@ -644,7 +644,7 @@ public enum EmoteType {
 	},
 	PUMPKIN_PUKE(		25, "pumpkin puke") {
 		public CustomEmote initEmote() {
-			CustomEmote emote = new CustomEmote(getName());
+			CustomEmote emote = new CustomEmote(this);
 			emote.addFrame(15, PUMPKIN_PUKE1);
 			emote.addFrame(13, PUMPKIN_PUKE2);
 			emote.addFrame(13, PUMPKIN_PUKE3);
